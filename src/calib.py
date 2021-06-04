@@ -35,11 +35,19 @@ def main():
             objpts.append(objp)
             imgpts.append(corners)
 
-            # display image and overlay features
-            cv2.drawChessboardCorners(img,(9,6),cv2.cornerSubPix(gry,corners,(11,11),(-1,-1),criteria),ret)
-            cv2.imshow('img',img)
-            cv2.waitKey(0)
+        # camera matrix, distortion coefficients, radial and translational vectors
+        ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpts, imgpts, gry.shape[::-1], None, None)
 
+        # undistortion
+        h,w = img.shape[:2]
+        newmtx,roi = cv2.getOptimalNewCameraMatrix(mtx,dist, (w,h), 1, (w,h))
+
+        xmap, ymap = cv2.initUndistortRectifyMap(mtx,dist,None,newmtx,(w,h),5)
+        dst = cv2.remap(img, xmap, ymap, cv2.INTER_LINEAR)
+
+        x,y,w,h = roi
+        dst = dst[y:y+h, x:x+w]
+        cv2.imwrite('../calib/result.jpg',dst)
 
 if __name__ =="__main__":
     main()
