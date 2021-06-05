@@ -61,6 +61,35 @@ def rectify(arr, mtx, newmtx, dist):
     return cv2.remap(img, xmap, ymap, cv2.INTER_LINEAR)
 
 
+def write(ret,mtx,newmtx,dist,rvecs,tvecs, file):
+
+    """ write camera matrix data to file
+
+    ret, float
+    mtx, ndarray
+    newmtx, ndarray
+    dist, ndarray
+    file, str
+
+    """
+    data = {}
+    data['ret'] = ret
+    data['mtx'] = mtx
+    data['newmtx'] = mewmtx
+    data['dist'] = dist
+    pickle.dump(data,open(str(file),'rb'))
+
+
+def read(file):
+
+    """ read camera matrix data from file
+
+    file, str
+
+    """
+
+    return pickle.load(str(file),'rb')
+
 
 def main():
     ret, mtx, newmtx, dist, rvecs, tvecs = calc(str(sys.argv[1]))
