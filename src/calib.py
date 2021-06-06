@@ -14,8 +14,8 @@ def calc(arr):
     """
 
     # initialize object points
-    objp = np.zeros((6*9,3),np.float32)
-    objp[:,:2] = np.mgrid[0:9,0:6].T.reshape(-1,2)
+    objp = np.zeros((9*6,3),np.float32)
+    objp[:,:2] = np.mgrid[0:6,0:9].T.reshape(-1,2)
 
     # obj and img point arrays
     objpts = [] # 3d real world space
@@ -27,7 +27,7 @@ def calc(arr):
     gry = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
     # solve for corners
-    ret, corners = cv2.findChessboardCorners(gry,(9,6),None)
+    ret, corners = cv2.findChessboardCorners(gry,(6,9),None)
 
     if ret:
         # update point arrays
