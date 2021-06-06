@@ -9,7 +9,23 @@ rimg = cv2.imread('../stereo/right.png')
 limg = cv2.cvtColor(limg, cv2.COLOR_BGR2GRAY)
 rimg = cv2.cvtColor(rimg, cv2.COLOR_BGR2GRAY)
 
-stereo = cv2.StereoBM_create(numDisparities=16, blockSize=5)
+
+# disparity settings
+block_size = 5
+min_disp = 32
+num_disp = 112-min_disp
+
+stereo = cv2.StereoSGBM_create(
+    minDisparity = min_disp,
+    numDisparities = num_disp,
+    blockSize = block_size,
+    uniquenessRatio = 10,
+    speckleWindowSize = 100,
+    speckleRange = 32,
+    disp12MaxDiff = 12,
+    P1 = 8*3*block_size**2,
+    P2 = 32*3*block_size**2,
+)
 
 disparity = stereo.compute(limg,rimg)
 disp = plt.figure(1)
