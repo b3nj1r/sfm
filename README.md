@@ -1,2 +1,2 @@
-# orient
-observing orientation of real-world objects in 3d space
+# sfm
+structure from motion
