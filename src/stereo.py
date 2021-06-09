@@ -53,14 +53,13 @@ def main():
     disparity = (disparity-min_disp)/num_disp
 
     h,w = limg.shape[:2]
-    f = 0.8*w
+    f = 2*w
 
     #TODO: REMOVE PLACEHOLDER Q MATRIX WITH STEREO CALIBRATED Q MATRIX
-
-    Q = np.float32([[1, 0, 0, -0.5*h],
-               [0, -1, 0, -0.5*w],
-               [0, 0, f * 0.5, 0],
-               [0, 0, 0, 1]])
+    Q = np.float32([[1,0,0,0],
+                     [0,-1,0,0],
+                     [0,0,f,0],
+                     [0,0,0,1]])
 
     pts = cv2.reprojectImageTo3D(disparity, Q)
     clrs = cv2.cvtColor(limg,cv2.COLOR_BGR2RGB)
